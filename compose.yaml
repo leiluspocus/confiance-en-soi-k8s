@@ -1,0 +1,46 @@
+# Ce docker compose permet de garantir la bonne synchronisation entre le back, le front et la base de données.
+services:
+  database:
+    image: mysql:8 # Tu peux remplacer par la base de ton choix
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - LANG=C.UTF-8 # Pour gérer les accents
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$DATABASE_NAME
+      - MYSQL_INITDB_CHARSET=utf8mb4 # Pour gérer les accents
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql # Ici, db correspond au nom du volume déclaré à la ligne 32.
+      - ./mysql-dump:/docker-entrypoint-initdb.d # Ici, mysql-dump correspond au dossier mysql-dump qui se trouve à la racine du répertoire. Docker va prendre automatiquement tous les fichiers SQL à la racine de ce dossier
+  server:
+    build:
+      dockerfile: ./api/Dockerfile
+    depends_on:
+      - database
+    env_file: ./.env
+    environment:
+      - DB_USER=$MYSQL_USER
+      - DB_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - DB_NAME=$DATABASE_NAME
+      - DB_PORT=$MYSQL_DOCKER_PORT
+      - CLIENT_ORIGIN=$CLIENT_ORIGIN
+    ports:
+      - 7777:8888
+    volumes:
+      - ./api:/workdir # Pour que quand tu mets à jour le code via ton IDE, ça mette à jour le code sur ton container
+      - /workdir/node_modules # Empêche le dossier node_modules d'être supprimé
+  frontend:
+    build:
+      dockerfile: ./front/Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front/src:/code/src
+      - /code/node_modules
+    depends_on:
+      - server
+volumes:
+  db:

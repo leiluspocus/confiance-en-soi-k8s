@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: confiance-en-soi
+data:
+  MYSQL_DATABASE: "affirmations_db"
+  MYSQL_USER: "user"
+  DB_PORT: "3306"
+  CLIENT_ORIGIN: "http://localhost:3000"
+  LANG: "C.UTF-8"
+  MYSQL_INITDB_CHARSET: "utf8mb4"

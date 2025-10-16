@@ -1,0 +1,13 @@
+name: Workflow CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Afficher un message dans la console
+        run: echo "Hello world, bientôt une CI ici!"

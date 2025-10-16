@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: confiance-en-soi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: imleiluspocus/confiance-back:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8888
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: MYSQL_PASSWORD
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: MYSQL_DATABASE
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: DB_PORT
+        - name: MYSQL_HOST
+          value: "mysql"
+        - name: CLIENT_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: CLIENT_ORIGIN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: confiance-en-soi
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 8888
+    targetPort: 8888
+  type: ClusterIP
