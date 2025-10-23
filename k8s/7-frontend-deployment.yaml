@@ -22,6 +22,14 @@ spec:
         env:
         - name: REACT_APP_API_URL
           value: "http://127.0.0.1:58190"
+        resources:
+          requests: # Le minimum pour le bon fonctionnement du pod
+            cpu: 100m  # Millicore, pourcentage de puissance CPU
+            memory: 128Mi
+          limits: # Les ressources maximales que le pod peut utiliser
+            cpu: 500m # Millicore, pourcentage de puissance CPU
+            memory: 600Mi # Mébioctet
+
 ---
 apiVersion: v1
 kind: Service

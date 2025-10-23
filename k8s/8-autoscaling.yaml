@@ -1,0 +1,22 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa
+  namespace: confiance-en-soi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+# Générer un pod qui génère de la ressource cpu: kubectl run -n confiance-en-soi 2-load-generator --image=busybox --restart=Never -- sh -c "while true; do wget -q -O- http://frontend:3000 > /dev/null; done" 
+
