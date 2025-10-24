@@ -7,7 +7,16 @@ on:
 jobs:
   say_hello:
     runs-on: ubuntu-latest
+    container: imleiluspocus/confiance-back:v3
 
     steps:
       - name: Afficher un message dans la console
         run: echo "Hello world, bientôt une CI ici!"
+      - name: Checkout repository
+        uses: actions/checkout@v4 
+      - name: Run tests inside the built image
+        # override the image CMD/ENTRYPOINT to run tests
+        run: |
+          cd api
+          npm install
+          npm run test

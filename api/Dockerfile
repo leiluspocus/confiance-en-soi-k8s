@@ -5,11 +5,11 @@ WORKDIR /workdir
 ADD . /workdir
 
 # Installer les dépendances du projet (package.json / package-lock.json )
-RUN yarn install
+RUN npm install
 
 # Installation globale de nodemon sur le container
-RUN yarn global add nodemon
+RUN npm install nodemon
 
 EXPOSE 8888
 
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]

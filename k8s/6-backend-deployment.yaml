@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: confiance-en-soi
+  namespace: confiance
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: imleiluspocus/confiance-back:latest
+        image: imleiluspocus/confiance-back:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 8888
@@ -52,7 +52,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend
-  namespace: confiance-en-soi
+  namespace: confiance
 spec:
   selector:
     app: backend
