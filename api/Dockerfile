@@ -5,10 +5,10 @@ WORKDIR /workdir
 ADD . /workdir
 
 # Installer les dépendances du projet (package.json / package-lock.json )
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Installation globale de nodemon sur le container
-RUN npm install nodemon --legacy-peer-deps
+RUN npm install nodemon
 
 EXPOSE 8888
 

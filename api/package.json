@@ -21,7 +21,7 @@
     "mysql2": "^3.11.0",
     "node-fetch": "2",
     "sequelize": "^6.37.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.2"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.2"
