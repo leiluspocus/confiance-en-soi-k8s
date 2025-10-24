@@ -7,7 +7,7 @@
     "start": "nodemon app.js",
     "test": "vitest",
     "coverage": "vitest run --coverage"
- },
+  },
   "keywords": [
     "node.js",
     "kubernetes"
@@ -22,5 +22,8 @@
     "node-fetch": "2",
     "sequelize": "^6.37.3",
     "vitest": "^3.2.4"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.2"
   }
 }
